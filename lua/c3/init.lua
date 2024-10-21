@@ -8,6 +8,8 @@ vim.filetype.add({
 
 return {
     -- Recommended configuration for C3
+    setup = function()
+    end,
     recommended = {
         ft = "c3",
         root = { "project.json" },
