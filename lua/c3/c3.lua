@@ -38,6 +38,16 @@ return {
         },
         config = function()
             require("nvim-treesitter.install").prefer_git = true -- Use Git for installation
+            -- Ensure the parser for C3 is available
+            local ts = require("nvim-treesitter")
+
+            -- Retrieve the Tree-sitter parser for the current buffer
+            local parser = ts.get_parser(0, "c3") -- 0 = current buffer
+
+            -- You can now work with the parser instance
+            print(parser:parse())
+            local query_path = vim.fn.stdpath("config") .. "/queries/c3/highlights.scm"
+            ts.query.set("c3", "highlights", vim.fn.readfile(query_path))
         end,
     },
     {
