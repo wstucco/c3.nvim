@@ -1,14 +1,13 @@
-vim.filetype.add({
-    extension = {
-        c3 = "c3",
-        c3i = "c3",
-        c3t = "c3",
-    },
-});
-
 return {
     -- Recommended configuration for C3
     setup = function()
+        vim.filetype.add({
+            extension = {
+                c3 = "c3",
+                c3i = "c3",
+                c3t = "c3",
+            },
+        });
     end,
     recommended = {
         ft = "c3",
@@ -36,15 +35,6 @@ return {
                 additional_vim_regex_highlighting = false,
             },
         },
-        config = function()
-            vim.filetype.add({
-                extension = {
-                    c3 = "c3",
-                    c3i = "c3",
-                    c3t = "c3",
-                },
-            })
-        end,
     },
     {
         "neovim/nvim-lspconfig",
