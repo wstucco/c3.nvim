@@ -22,6 +22,12 @@ parser_config.c3 = {
 
 return {
     -- Recommended configuration for C3
+    recommended = function()
+        return LazyVim.extras.wants({
+            ft = "c3",
+            root = { "project.json" },
+        })
+    end,
     {
         "nvim-treesitter/nvim-treesitter",
         opts = {
