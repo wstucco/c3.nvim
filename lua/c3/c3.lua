@@ -33,7 +33,7 @@ return {
         opts = {
             ensure_installed = { "c3" },
             highlight = { enable = true },
-            sync_install = false, -- Use true if you want synchronous installation
+            sync_install = true, -- Use true if you want synchronous installation
             auto_install = true,
         },
         config = function()
@@ -41,8 +41,31 @@ return {
             -- Ensure the parser for C3 is available
             local ts = require("nvim-treesitter")
 
+            -- Debugging: Check if nvim-treesitter is loaded
+            local ts_ok, ts = pcall(require, "nvim-treesitter")
+            if ts_ok then
+                vim.notify("nvim-treesitter loaded successfully")
+            else
+                vim.notify("Failed to load nvim-treesitter", vim.log.levels.ERROR)
+                return
+            end
+
+            -- Check if the parser for C3 is available
+            local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+
+            if parser_config["c3"] then
+                vim.notify("C3 parser configuration found")
+            else
+                vim.notify("C3 parser configuration NOT found", vim.log.levels.ERROR)
+            end
+
             -- Retrieve the Tree-sitter parser for the current buffer
-            local parser = ts.get_parser(0, "c3") -- 0 = current buffer
+            local success, parser = pcall(ts.get_parser, 0, "c3")
+            if success then
+                vim.notify("C3 parser loaded successfully for the current buffer")
+            else
+                vim.notify("Failed to load C3 parser: " .. parser, vim.log.levels.ERROR)
+            end
 
             -- You can now work with the parser instance
             print(parser:parse())
