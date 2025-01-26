@@ -50,7 +50,7 @@ return {
         opts = {
             servers = {
                 c3_lsp = {
-                    cmd = { c3lsp_executable },
+                    cmd = { "c3-lsp", "c3lsp" },
                 }
             },
         },
