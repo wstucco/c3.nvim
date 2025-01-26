@@ -1,48 +1,49 @@
+vim.filetype.add({
+    extension = {
+        c3 = "c3",
+        c3i = "c3",
+        c3t = "c3",
+    },
+})
+
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.c3 = {
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    },
+    install_info = {
+        url = "https://github.com/c3lang/tree-sitter-c3",
+        files = { "src/parser.c", "src/scanner.c" },
+        branch = "main",
+        sync_install = false, -- Set to false for async installation
+        auto_install = true,  -- Automatically installs the parser on demand
+        filetype = "c3",      -- The filetype for C3
+    },
+}
+
+-- Pre-calculate the LSP executable configuration before passing it into `opts`
+local lsp_config = {}
+local c3lsp_executable = vim.fn.executable("c3-lsp") == 1 and "c3-lsp" or nil
+
+-- Fallback to 'c3lsp' if 'c3-lsp' is not found
+if not c3lsp_executable then
+    c3lsp_executable = vim.fn.executable("c3lsp") == 1 and "c3lsp" or nil
+end
+
+
 return {
-    -- Recommended configuration for C3
-    setup = function()
-        vim.filetype.add({
-            extension = {
-                c3 = "c3",
-                c3i = "c3",
-                c3t = "c3",
-            },
-        });
-    end,
     recommended = {
         ft = "c3",
         root = { "project.json" },
-    },
-    {
-        "nvim-treesitter/nvim-treesitter",
-        opts = {
-            ensure_installed = { "c3" },
-            -- Add parser configurations
-            parser_install_info = {
-                c3 = {
-                    install_info = {
-                        url = "https://github.com/c3lang/tree-sitter-c3",
-                        files = { "src/parser.c", "src/scanner.c" },
-                        branch = "main",
-                    },
-                    sync_install = false, -- Set to true if you want to install synchronously
-                    auto_install = true,  -- Automatically install when opening a file
-                    filetype = "c3",      -- if filetype does not match the parser name
-                },
-            },
-            highlight = {
-                enable = true,
-                additional_vim_regex_highlighting = false,
-            },
-        },
     },
     {
         "neovim/nvim-lspconfig",
         opts = {
             servers = {
                 c3_lsp = {
-                    cmd = { "c3-lsp" },
-                },
+                    cmd = { c3lsp_executable },
+                }
             },
         },
     },
