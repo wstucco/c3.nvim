@@ -37,6 +37,8 @@ end
 
 
 return {
+    setup = function()
+    end,
     recommended = {
         ft = "c3",
         root = { "project.json" },
