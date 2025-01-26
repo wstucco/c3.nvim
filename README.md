@@ -11,9 +11,9 @@ C3 neovim plugin
 return {
     {
         "wstucco/c3.nvim",
-        config = function()
-            require("c3")
-        end,
+        opts = {
+            ensure_loaded = { "c3" }
+        },
     },
 }
 ```

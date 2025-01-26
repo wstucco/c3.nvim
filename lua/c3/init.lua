@@ -27,7 +27,6 @@ parser_config.c3 = {
 }
 
 -- Pre-calculate the LSP executable configuration before passing it into `opts`
-local lsp_config = {}
 local c3lsp_executable = vim.fn.executable("c3-lsp") == 1 and "c3-lsp" or nil
 
 -- Fallback to 'c3lsp' if 'c3-lsp' is not found
@@ -52,6 +51,18 @@ return {
                 }
             },
         },
+    },
+    {
+        "nvim-treesitter/nvim-treesitter",
+        config = function()
+            -- Trigger TSInstallSync only on first run
+            vim.api.nvim_create_autocmd("User", {
+                pattern = "LazyPluginLoaded",
+                callback = function()
+                    vim.cmd("TSInstallSync c3") -- Replace with your languages
+                end,
+            })
+        end,
     },
     {
         "nvim-treesitter/nvim-treesitter-context", -- Optional: For better context display
