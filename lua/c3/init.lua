@@ -20,6 +20,10 @@ parser_config.c3 = {
         auto_install = true,  -- Automatically installs the parser on demand
         filetype = "c3",      -- The filetype for C3
     },
+    -- Force queries installation along with the parser
+    query = {
+        enable = true, -- This forces query installation
+    },
 }
 
 -- Pre-calculate the LSP executable configuration before passing it into `opts`
