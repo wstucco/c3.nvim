@@ -8,6 +8,7 @@ vim.filetype.add({
 
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.c3 = {
+    ensure_installed = { "c3" },
     highlight = {
         enable = true,
         additional_vim_regex_highlighting = false,
@@ -26,6 +27,7 @@ parser_config.c3 = {
     },
 }
 
+
 -- Pre-calculate the LSP executable configuration before passing it into `opts`
 local c3lsp_executable = vim.fn.executable("c3-lsp") == 1 and "c3-lsp" or nil
 
@@ -34,6 +36,7 @@ if not c3lsp_executable then
     c3lsp_executable = vim.fn.executable("c3lsp") == 1 and "c3lsp" or nil
 end
 
+vim.notify("c3 lsp executable: " .. c3lsp_executable, vim.log.levels.INFO)
 
 return {
     setup = function()
@@ -54,15 +57,6 @@ return {
     },
     {
         "nvim-treesitter/nvim-treesitter",
-        config = function()
-            -- Trigger TSInstallSync only on first run
-            vim.api.nvim_create_autocmd("User", {
-                pattern = "LazyPluginLoaded",
-                callback = function()
-                    vim.cmd("TSInstallSync c3") -- Replace with your languages
-                end,
-            })
-        end,
     },
     {
         "nvim-treesitter/nvim-treesitter-context", -- Optional: For better context display
